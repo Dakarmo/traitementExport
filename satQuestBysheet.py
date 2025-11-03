@@ -1,11 +1,11 @@
 import pandas as pd
 
 # Charger toutes les feuilles
-fichier_entree = "C:/Users/kossi.dovenon/Desktop/traitementFichier/passage_des_questionnaires_du_14_06_2025.xlsx"
+fichier_entree = "C:/Users/kossi.dovenon/Desktop/traitementFichier/Resultats_ Passages_Questionnaire_du_30_10_25.xlsx"
 feuilles = pd.read_excel(fichier_entree, sheet_name=None)  # Toutes les feuilles
 
 # Fichier de sortie unique
-fichier_sortie = "C:/Users/kossi.dovenon/Desktop/traitementFichier/passage_des_questionnaires_du_14_06_2025_fichier_reorganise.xlsx"
+fichier_sortie = "C:/Users/kossi.dovenon/Desktop/traitementFichier/Resultats_ Passages_Questionnaire_du_30_10_25_fichier_reorganise.xlsx"
 
 # Écrire dans un seul fichier avec plusieurs onglets
 with pd.ExcelWriter(fichier_sortie, engine='openpyxl') as writer:
@@ -16,10 +16,10 @@ with pd.ExcelWriter(fichier_sortie, engine='openpyxl') as writer:
         print("Colonnes détectées :", df.columns)
 
         # Renommer les colonnes si besoin
-        df.columns = ["Nom", "Question", "Réponse", "Commentaire"]
+        df.columns = ["Nom", "Login", "Question", "Réponse", "Commentaire"]
 
         # Créer le pivot
-        df_pivot = df.pivot_table(index="Nom", columns="Question", values="Réponse", aggfunc="first")
+        df_pivot = df.pivot_table(index=["Nom", "Login"], columns="Question", values="Réponse", aggfunc="first")
 
         # Extraire les commentaires
         df_commentaires = df.groupby("Nom")["Commentaire"].first().reset_index()
